@@ -9,7 +9,7 @@
 	<h1>WebParkhaus</h1>
 	<ccm-parkhaus-7-0-0
 		server_url="http://localhost:8080/WebParkhaus/Parkhaus"
-		extra_buttons='["sum"]'
+		extra_buttons='["sum", "avg"]'
 		></ccm-parkhaus-7-0-0>
 	</body>
 </html>

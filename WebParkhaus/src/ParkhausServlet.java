@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ParkhausServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
+	private static float sum = 0.0f;
+	private static float cars = 0.0f;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -37,12 +40,30 @@ public class ParkhausServlet extends HttpServlet
 		String cmd = requestParam[0];
 		String arg = requestParam[1];
 		
-		if(cmd.equals("cmd"))
+		if("cmd".equals(cmd))
 		{
-			System.out.println(cmd);
-			//TODO
-		} else {
-			System.out.println("Invalid command: " + cmd);
+			response.setContentType("text/html");
+			PrintWriter out = response.getWriter();
+			
+			switch(arg)
+			{
+				case "sum":
+					out.println(sum);
+					System.out.println("sum = " + sum);
+					break;
+				case "avg":
+					if(cars > 0)
+					{
+						float avg = sum/cars;
+						out.println(avg);
+						System.out.println("average = " +  avg);
+					} else {
+						System.err.println("Nulldivision!");
+					}
+					break;
+				default:
+					System.out.println("Invalid command: " + arg);
+			}
 		}
 	}
 
@@ -53,6 +74,11 @@ public class ParkhausServlet extends HttpServlet
 	{
 		String body = getBody(request);
 		String[] params = body.split(",");
+		if(params[0].equals("leave") && !(params[4].equals("_")))
+		{
+			sum += (Float.parseFloat(params[4]))/100;
+			cars++;
+		}
 		System.out.println(body);
 	}
 
