@@ -19,8 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ParkhausServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-	private static float sum = 0.0f;
-	private static float cars = 0.0f;
+	private Berechnung calc = new Berechnung();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -48,15 +47,14 @@ public class ParkhausServlet extends HttpServlet
 			switch(arg)
 			{
 				case "sum":
-					out.println(sum);
-					System.out.println("sum = " + sum);
+					out.println(calc.getSum());
+					System.out.println("sum = " + calc.getSum());
 					break;
 				case "avg":
-					if(cars > 0)
+					if(calc.getSize() > 0)
 					{
-						float avg = sum/cars;
-						out.println(avg);
-						System.out.println("average = " +  avg);
+						out.println(calc.getAvg());
+						System.out.println("average = " +  calc.getAvg());
 					} else {
 						System.err.println("Nulldivision!");
 					}
@@ -76,8 +74,7 @@ public class ParkhausServlet extends HttpServlet
 		String[] params = body.split(",");
 		if(params[0].equals("leave") && !(params[4].equals("_")))
 		{
-			sum += (Float.parseFloat(params[4]))/100;
-			cars++;
+			calc.addCost(Float.parseFloat(params[4]));
 		}
 		System.out.println(body);
 	}
