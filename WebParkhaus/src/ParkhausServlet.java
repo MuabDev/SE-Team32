@@ -20,14 +20,17 @@ public class ParkhausServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
 	private Berechnung calc = new Berechnung();
+	private SumView sum = new SumView();		//initialisiere die Views
+	private AvgView avg = new AvgView();
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ParkhausServlet() 
     {
-        super();
-        // TODO Auto-generated constructor stub
+    	super();
+    	sum.subscribe(calc);				//Views in die Liste der Berechnung einfügen
+    	avg.subscribe(calc);
     }
 
 	/**
@@ -47,14 +50,14 @@ public class ParkhausServlet extends HttpServlet
 			switch(arg)
 			{
 				case "sum":
-					out.println(calc.getSum());
-					System.out.println("sum = " + calc.getSum());
+					out.println(sum.view());
+					System.out.println("sum = " + sum.view());
 					break;
 				case "avg":
-					if(calc.getSize() > 0)
+					if(calc.getSize() > 0) //nicht durch null teilen
 					{
-						out.println(calc.getAvg());
-						System.out.println("average = " +  calc.getAvg());
+						out.println(avg.view());
+						System.out.println("average = " +  avg.view());
 					} else {
 						System.err.println("Nulldivision!");
 					}
@@ -72,15 +75,14 @@ public class ParkhausServlet extends HttpServlet
 	{
 		String body = getBody(request);
 		String[] params = body.split(",");
-		if(params[0].equals("leave") && !(params[4].equals("_")))
+		if(params[0].equals("leave") && !(params[4].equals("_"))) 
 		{
-			calc.addCost(Float.parseFloat(params[4]));
+			calc.addCost(Float.parseFloat(params[4])); //4tes Element sind die Kosten
 		}
 		System.out.println(body);
 	}
 
-	//from lecture
-	private static String getBody(HttpServletRequest request) throws IOException
+	private static String getBody(HttpServletRequest request) throws IOException //von Vorlesung
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		BufferedReader bufferedReader = null;

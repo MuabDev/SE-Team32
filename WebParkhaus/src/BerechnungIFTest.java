@@ -6,12 +6,18 @@ import org.junit.jupiter.api.Test;
 
 class BerechnungIFTest 
 {	
-	BerechnungIF b;
+	Berechnung b;
+	SumView s;
+	AvgView a;
 
 	@BeforeEach
 	void setUp() throws Exception 
 	{
 		b = new Berechnung();
+		s = new SumView();
+		a = new AvgView();
+		s.subscribe(b);
+		a.subscribe(b);
 		
 	}
 	
@@ -20,31 +26,28 @@ class BerechnungIFTest
 	void testAddCost() 
 	{
 		assertEquals(0, b.getSize()); //keine Elemente in Liste
-		b.addCost(100.0f);			 //zwei Werte einfügen
-		assertEquals(1, b.getSize()); 
-	}
-	
-	@Test
-	@DisplayName("Größe der Liste soll angezeigt werden")
-	void testGetSize() 
-	{
-		assertEquals(1, b.getSize());
-		b.addCost(100.0f);				//erst ein Element, nach Einfügen zwei
-		assertEquals(2, b.getSize());
+		b.addCost(100.0f);			 
+		assertEquals(1, b.getSize()); //Liste hat ein Element nach add
 	}
 
 	@Test
 	@DisplayName("Summe der Kosten soll angezeigt werden")
 	void testGetSum() 
 	{
-		assertEquals(2.0f, b.getSum()); //Summe der zuvor eingefügten Elemente (durch 100 wegen Kosten in Cent)
+		b.addCost(100.0f);
+		b.addCost(200.0f);
+		b.addCost(300.0f);
+		assertEquals(6.0f, s.view()); //Summe der zuvor eingefügten Elemente (durch 100 wegen Kosten in Cent)
 	}
 
 	@Test
 	@DisplayName("Durchschnitt der Kosten soll angezeigt werden")
 	void testGetAvg() 
 	{
-		assertEquals(1.0f, b.getAvg()); //Durchschnitt der zuvor eingefügten Elemente 
+		b.addCost(100.0f);
+		b.addCost(200.0f);
+		b.addCost(300.0f);
+		assertEquals(2.0f, a.view()); //Durchschnitt der zuvor eingefügten Elemente 
 										//(durch 100 wegen Kosten in Cent)
 	}
 
