@@ -44,16 +44,18 @@ public class ParkhausServlet extends HttpServlet
 		
 		if("cmd".equals(cmd))
 		{
-			response.setContentType("text/html");
 			PrintWriter out = response.getWriter();
 			
-			switch(arg)
+			String[] args = arg.split("&");
+			switch(args[0])
 			{
 				case "sum":
+					response.setContentType("text/html");
 					out.println(sum.view());
 					System.out.println("sum = " + sum.view());
 					break;
 				case "avg":
+					response.setContentType("text/html");
 					if(calc.getSize() > 0) //nicht durch null teilen
 					{
 						out.println(avg.view());
@@ -63,7 +65,7 @@ public class ParkhausServlet extends HttpServlet
 					}
 					break;
 				default:
-					System.out.println("Invalid command: " + arg);
+					System.out.println("Invalid command: " + args[0]);
 			}
 		}
 	}
@@ -75,14 +77,15 @@ public class ParkhausServlet extends HttpServlet
 	{
 		String body = getBody(request);
 		String[] params = body.split(",");
-		if(params[0].equals("leave") && !(params[4].equals("_"))) 
+		if(params[0].equals("leave") && !(params[4].equals("_"))) //4tes Element sind die Kosten
 		{
-			calc.addCost(Float.parseFloat(params[4])); //4tes Element sind die Kosten
+			calc.addCost(Float.parseFloat(params[4])); 
 		}
+		
 		System.out.println(body);
 	}
 
-	private static String getBody(HttpServletRequest request) throws IOException //von Vorlesung
+	private static String getBody(HttpServletRequest request) throws IOException //von Vorlesung, lese http-post-body
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		BufferedReader bufferedReader = null;
