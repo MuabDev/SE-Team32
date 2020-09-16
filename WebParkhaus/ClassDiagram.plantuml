@@ -6,17 +6,25 @@ class AvgView [[java:AvgView]] {
 }
 class View [[java:View]] {
 }
-View <|-left- AvgView
+View <|-l- AvgView
+interface EinweiserIF [[java:EinweiserIF]] {
+	int enter(Auto in)
+	Auto leave(Auto out)
+	void addCar(Auto in)
+	List<Auto> getCars()
+	int getSize()
+	int getMax()
+	void setMax(int m)
+}
 
 class Berechnung [[java:Berechnung]] {
 }
-
-interface BerechnungIF [[java:BerechnungIF]] {
-	void addCost(float cost)
-	List<Float> getCosts()
-	int getSize()
+class SumView [[java:SumView]] {
+}
+class AvgView [[java:AvgView]] {
 }
 class ParkhausServlet [[java:ParkhausServlet]] {
+	-{static}long serialVersionUID
 	+ParkhausServlet()
 	#void doGet(HttpServletRequest request, HttpServletResponse response)
 	#void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -24,52 +32,48 @@ class ParkhausServlet [[java:ParkhausServlet]] {
 }
 class Berechnung [[java:Berechnung]] {
 }
-ParkhausServlet -->  Berechnung : use
+ParkhausServlet -r-> Berechnung : calc
+class Einweiser [[java:Einweiser]] {
+}
+ParkhausServlet -->  Einweiser : haus
 class SumView [[java:SumView]] {
 }
-ParkhausServlet -->  SumView : use
+ParkhausServlet -r->  SumView : sum
 class AvgView [[java:AvgView]] {
 }
-ParkhausServlet -->  AvgView : use
+ParkhausServlet -r->  AvgView : avg
 class HttpServlet [[java:javax.servlet.http.HttpServlet]] {
 }
 HttpServlet <|-- ParkhausServlet
-class AbstractPublisher [[java:AbstractPublisher]] {
-	+void addView(View v)
-	+void update()
-}
-class View [[java:View]] {
-}
-AbstractPublisher -->  View : use
-class Berechnung [[java:Berechnung]] {
-	~List<Float> costs
-	+Berechnung()
-	+void addCost(float cost)
-	+List<Float> getCosts()
-	+int getSize()
-}
-class AbstractPublisher [[java:AbstractPublisher]] {
-}
-AbstractPublisher <|-- Berechnung
-interface BerechnungIF [[java:BerechnungIF]] {
-}
-BerechnungIF <|.. Berechnung
-class SumView [[java:SumView]] {
-	~float sum
-	~float view()
-	+void update()
-}
-class View [[java:View]] {
-}
-View <|-left- SumView
 abstract class View [[java:View]] {
 	+void subscribe(Berechnung m)
 	+{abstract}void update()
 }
 class Berechnung [[java:Berechnung]] {
 }
-View -up->  Berechnung : use
-
+View -u->  Berechnung : model
+class Einweiser [[java:Einweiser]] {
+	-int max
+	+Einweiser()
+	+int enter(Auto in)
+	+Auto leave(Auto out)
+	+void addCar(Auto in)
+	+List<Auto> getCars()
+	+int getSize()
+	+int getMax()
+	+void setMax(int m)
+}
+class Auto [[java:Auto]] {
+}
+Einweiser -->  Auto : cars
+interface EinweiserIF [[java:EinweiserIF]] {
+}
+EinweiserIF <|.. Einweiser
+interface BerechnungIF [[java:BerechnungIF]] {
+	void addCost(float cost)
+	List<Float> getCosts()
+	int getSize()
+}
 class Auto [[java:Auto]] {
 	-int parkplatz
 	-String ticket
@@ -82,6 +86,44 @@ class Auto [[java:Auto]] {
 }
 interface AutoIF [[java:AutoIF]] {
 }
-AutoIF <|.. Auto
+AutoIF <|.l. Auto
+class AbstractPublisher [[java:AbstractPublisher]] {
+	+void addView(View v)
+	+void update()
+}
+class View [[java:View]] {
+}
+AbstractPublisher -l->  View : views
+interface AutoIF [[java:AutoIF]] {
+	int getParkplatz()
+	String getTicket()
+	void setParkplatz(int p)
+	void setTicket(String t)
+}
+class Berechnung [[java:Berechnung]] {
+	~List<Float> costs
+	+Berechnung()
+	+void addCost(float cost)
+	+List<Float> getCosts()
+	+int getSize()
+}
+class AbstractPublisher [[java:AbstractPublisher]] {
+}
+AbstractPublisher <|-u- Berechnung
+interface BerechnungIF [[java:BerechnungIF]] {
+}
+BerechnungIF <|.d. Berechnung
+class SumView [[java:SumView]] {
+	~float sum
+	~float view()
+	+void update()
+}
+class View [[java:View]] {
+}
+View <|-- SumView
+
+class EinweiserIF [[java:EinweiserIF]] {
+}
+
 
 @enduml
