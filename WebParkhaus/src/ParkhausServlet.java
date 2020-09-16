@@ -20,7 +20,7 @@ public class ParkhausServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
 	private Berechnung calc = new Berechnung();
-	private Einweiser haus = new Einweiser();
+	private Einweiser guide = new Einweiser();
 	private SumView sum = new SumView();		//initialisiere die Views
 	private AvgView avg = new AvgView();
        
@@ -83,7 +83,7 @@ public class ParkhausServlet extends HttpServlet
 			int platz = Integer.parseInt(params[7]); //Slot des einfahrenden Autos
 			String ticket = params[5]; //Hash/Ticket des einfahrenden Autos
 			
-			int id = haus.enter(new Auto(platz, ticket)); //Zugewiesener Slot für Auto, wenn 0 ist Parkhaus voll
+			int id = guide.enter(new Auto(platz, ticket)); //Zugewiesener Slot für Auto, wenn 0 ist Parkhaus voll
 			if(id == 0) 
 			{
 				response.getWriter().println("full");
@@ -101,7 +101,7 @@ public class ParkhausServlet extends HttpServlet
 			String ticket = params[5]; 
 			
 			System.out.println("Ausfahrt vom Platz: " + platz);
-			haus.leave(new Auto(platz, ticket));
+			guide.leave(new Auto(platz, ticket));
 			calc.addCost(Float.parseFloat(params[4])); 
 		}
 		

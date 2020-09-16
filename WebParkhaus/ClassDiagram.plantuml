@@ -35,7 +35,7 @@ class Berechnung [[java:Berechnung]] {
 ParkhausServlet -r-> Berechnung : calc
 class Einweiser [[java:Einweiser]] {
 }
-ParkhausServlet -->  Einweiser : haus
+ParkhausServlet -->  Einweiser : guide
 class SumView [[java:SumView]] {
 }
 ParkhausServlet -r->  SumView : sum
