@@ -14,13 +14,12 @@ public class Einweiser implements EinweiserIF
 	public int enter(Auto in) 
 	{
 		int slot = 0;
-		
 		if(getSize() > getMax()) //Parkhaus voll
 		{
 			return slot;
 		}
 		
-		for(int i = 0;i < getMax()*2; i++) 		//Generiere solange eine zufällige Zahl bis ein freier Parkplatz gefunden wird
+		for(int i = 0;i < getMax()*10; i++) 		//Generiere solange eine zufällige Zahl bis ein freier Parkplatz gefunden wird
 		{
 			int rand = (new Random()).nextInt(getMax() - 1 + 1) + 1;
 			if(getCars().stream().map(car -> car.getParkplatz()).noneMatch(platz -> platz == rand))
@@ -31,13 +30,12 @@ public class Einweiser implements EinweiserIF
 				break;
 			}
 		}
-		
 		return slot;
 	}
 
 	public Auto leave(Auto out) 
 	{
-		Auto tmp = getCars().stream().filter(car -> car.getTicket().equals(out.getTicket())).findFirst().get(); //Finde Auto im Parkhaus mit dem richtigen Ticket
+		Auto tmp = getCars().stream().filter(car -> car.getParkplatz() == out.getParkplatz()).findFirst().get(); //Finde Auto im Parkhaus mit dem richtigen Parkplatz
 		
 		if(!cars.remove(tmp))
 		{
@@ -64,11 +62,6 @@ public class Einweiser implements EinweiserIF
 	public int getMax()
 	{
 		return max;
-	}
-	
-	public void setMax(int m)
-	{
-		max = m;
 	}
 	
 }

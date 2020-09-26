@@ -14,8 +14,8 @@ class EinweiserTest
 	void setUe() throws Exception 
 	{
 		e = new Einweiser();
-		car = new Auto(1, "ticket1");
-		car2 = new Auto(2, "ticket2");
+		car = new Auto(5, "55a5297432f8a6c7949cbfd7c0cf3531");
+		car2 = new Auto(5, "e34ae43caf02cfb2fc53f6bb01123308");
 		car3 = new Auto(2, "ticket3");
 	}
 

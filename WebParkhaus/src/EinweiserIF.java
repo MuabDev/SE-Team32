@@ -14,6 +14,4 @@ public interface EinweiserIF
 	public int getSize();
 	
 	public int getMax();
-	
-	public void setMax(int m);
 }
