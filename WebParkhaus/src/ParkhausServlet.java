@@ -19,8 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 public class ParkhausServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
+	
 	private Berechnung calc = new Berechnung();
 	private Einweiser guide = new Einweiser();
+	private Kunde kunde = new Kunde();
+	
 	private SumView sum = new SumView();		//initialisiere die Views
 	private AvgView avg = new AvgView();
        
@@ -48,8 +51,16 @@ public class ParkhausServlet extends HttpServlet
 			PrintWriter out = response.getWriter();
 			
 			String[] args = arg.split("&");
+			
 			switch(args[0])
 			{
+				case "state":
+					kunde.next();
+					kunde.set();
+					response.setContentType("text/html");
+					out.println("<font size=3>" + kunde.getName() + ", Factor: " + kunde.getPreis() + "</font>");
+					System.out.println("State is: " + kunde.getName() + ", Factor: " + kunde.getPreis());
+					break;
 				case "sum":
 					response.setContentType("text/html");
 					out.println(sum.view());
@@ -86,6 +97,7 @@ public class ParkhausServlet extends HttpServlet
 			int id = guide.enter(new Auto(platz, ticket)); //Zugewiesener Slot für Auto, wenn 0 ist Parkhaus voll
 			if(id == 0) 
 			{
+				System.out.println("Voll!");
 				response.getWriter().println("full");
 			}
 			else
@@ -101,7 +113,7 @@ public class ParkhausServlet extends HttpServlet
 			String ticket = params[5]; 
 			
 			System.out.println("Ausfahrt vom Platz: " + platz);
-			guide.leave(new Auto(platz, ticket));
+			Auto out = guide.leave(new Auto(platz, ticket));
 			calc.addCost(Float.parseFloat(params[4])); 
 		}
 		
