@@ -55,8 +55,7 @@ public class ParkhausServlet extends HttpServlet
 			switch(args[0])
 			{
 				case "state":
-					kunde.next();
-					kunde.set();
+					kunde.next();  //Zustand ändern
 					response.setContentType("text/html");
 					out.println("<font size=3>" + kunde.getName() + ", Factor: " + kunde.getPreis() + "</font>");
 					System.out.println("State is: " + kunde.getName() + ", Factor: " + kunde.getPreis());
@@ -114,7 +113,11 @@ public class ParkhausServlet extends HttpServlet
 			
 			System.out.println("Ausfahrt vom Platz: " + platz);
 			Auto out = guide.leave(new Auto(platz, ticket));
-			calc.addCost(Float.parseFloat(params[4])); 
+			
+			if(!params[8].equals("Mitarbeiter"))        //Mitarbeiter sollen nicht in die Berechnung einfliessen
+			{
+				calc.addCost(Float.parseFloat(params[4]));
+			}
 		}
 		
 		System.out.println(body);

@@ -13,7 +13,7 @@
 		server_url="http://localhost:8080/WebParkhaus/Parkhaus"
 		extra_buttons='["state", "sum", "avg"]'
 		client_categories='["Kunde","Familie","Mitarbeiter"]'
-		price_factor='{"Kunde":"1","Familie":"2","Mitarbeiter":"0"}'
+		price_factor='{"Kunde":1,"Familie":2,"Mitarbeiter":0}'
 		></ccm-parkhaus-9-1-8>
 	</body>
 </html>

@@ -1,5 +1,5 @@
 
-public class Zustand 
+public class Zustand implements ZustandIF
 {
 	Kunde kunde;
 	Zustand next;

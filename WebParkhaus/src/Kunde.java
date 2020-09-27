@@ -1,5 +1,5 @@
 
-public class Kunde 
+public class Kunde implements KundeIF
 {
 	Zustand zustand;
 	int preis = 1;
@@ -26,10 +26,7 @@ public class Kunde
 	public void next()
 	{
 		zustand = zustand.next;
-	}
-	
-	public void set()
-	{
 		zustand.set();
 	}
+	
 }
